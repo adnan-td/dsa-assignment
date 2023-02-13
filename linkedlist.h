@@ -4,16 +4,55 @@
 #define srange(i, start, end) for (int i = start; i < end; i++)
 #define range(i, end) srange(i, 0, end)
 
+typedef struct stack{
+  int size;
+  char **arr;
+  int top;
+}stack;
+
 typedef struct node
 {
-  char data;
+  char *data;
   struct node *next;
+  stack *link;
 } node;
 
-node *newNode(int data)
+node *newNode(char *data)
 {
   node *temp = (node *)malloc(sizeof(node));
+  temp->data = (char *)malloc(sizeof(node));
   temp->data = data;
+}
+
+node *create_stack(node *head,int size){
+  stack *s = (stack *)malloc(sizeof(stack));
+  s->size = size;
+  s->arr = (char **)malloc((s->size)*sizeof(char *));
+  s->top = -1;
+  head->link = s;
+  return head;
+}
+
+void push(stack *s,char *data){
+  if(s->top == (s->size)-1){
+    printf("Cannot insert....\n");
+  }
+  else{
+    s->top+=1;
+    s->arr[s->top] = (char *)malloc(sizeof(char));
+  }
+}
+
+char *pop(stack *s){
+  if(s->top==-1){
+    printf("Stack is Empty.....\n");
+    return 0;
+  }
+  else{
+    char *s1 = s->arr[s->top];
+    s->top-=1;
+    return s1;
+  }
 }
 
 void isEmptyLL(node *head)
@@ -34,7 +73,7 @@ int lengthLL(node *head)
   return count;
 }
 
-int searchLL(node *head, char key)
+int searchLL(node *head, char *key)
 {
   int flag, count1;
   flag = count1 = 0;
@@ -56,7 +95,7 @@ int searchLL(node *head, char key)
   return count1;
 }
 
-void insertLL(node **head, char item)
+void insertLL(node **head, char *item)
 {
   node *ptr = newNode(item), *temp;
   if (ptr == NULL)
