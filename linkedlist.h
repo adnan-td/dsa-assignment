@@ -24,7 +24,7 @@ node *newNode(char *data)
   temp->data = data;
 }
 
-node *create_stack(node *head,int size){
+node *link_stack(node *head,int size){
   stack *s = (stack *)malloc(sizeof(stack));
   s->size = size;
   s->arr = (char **)malloc((s->size)*sizeof(char *));
@@ -40,6 +40,7 @@ void push(stack *s,char *data){
   else{
     s->top+=1;
     s->arr[s->top] = (char *)malloc(sizeof(char));
+    s->arr[s->top] = data;
   }
 }
 
@@ -165,4 +166,13 @@ void displayLL(node *head)
       temp = temp->next;
     }
   }
+}
+
+void display_stack(node *head){
+  stack *s = head->link;
+  while(s->top>=0){
+    printf("%s ",s->arr[s->top]);
+    s->top-=1;
+  }
+  printf("\n");
 }
