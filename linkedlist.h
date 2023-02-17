@@ -4,11 +4,12 @@
 #define srange(i, start, end) for (int i = start; i < end; i++)
 #define range(i, end) srange(i, 0, end)
 
-typedef struct stack{
+typedef struct stack
+{
   int size;
   char **arr;
   int top;
-}stack;
+} stack;
 
 typedef struct node
 {
@@ -24,33 +25,41 @@ node *newNode(char *data)
   temp->data = data;
 }
 
-node *create_stack(node *head,int size){
+node *link_stack(node *head, int size)
+{
   stack *s = (stack *)malloc(sizeof(stack));
   s->size = size;
-  s->arr = (char **)malloc((s->size)*sizeof(char *));
+  s->arr = (char **)malloc((s->size) * sizeof(char *));
   s->top = -1;
   head->link = s;
   return head;
 }
 
-void push(stack *s,char *data){
-  if(s->top == (s->size)-1){
+void push(stack *s, char *data)
+{
+  if (s->top == (s->size) - 1)
+  {
     printf("Cannot insert....\n");
   }
-  else{
-    s->top+=1;
+  else
+  {
+    s->top += 1;
     s->arr[s->top] = (char *)malloc(sizeof(char));
+    s->arr[s->top] = data;
   }
 }
 
-char *pop(stack *s){
-  if(s->top==-1){
+char *pop(stack *s)
+{
+  if (s->top == -1)
+  {
     printf("Stack is Empty.....\n");
     return 0;
   }
-  else{
+  else
+  {
     char *s1 = s->arr[s->top];
-    s->top-=1;
+    s->top -= 1;
     return s1;
   }
 }
@@ -95,12 +104,13 @@ int searchLL(node *head, char *key)
   return count1;
 }
 
-void insertLL(node **head, char *item)
+node *insertLL(node **head, char *item)
 {
   node *ptr = newNode(item), *temp;
   if (ptr == NULL)
   {
     printf("OVERFLOW\n");
+    return NULL;
   }
   else
   {
@@ -109,6 +119,7 @@ void insertLL(node **head, char *item)
     {
       ptr->next = NULL;
       *head = ptr;
+      return ptr;
     }
     else
     {
@@ -119,6 +130,7 @@ void insertLL(node **head, char *item)
       }
       temp->next = ptr;
       ptr->next = NULL;
+      return ptr;
     }
   }
 }
@@ -152,6 +164,25 @@ void deleteAtEndLL(node *head)
   }
 }
 
+void display_stack(node *head)
+{
+  stack *s = head->link;
+  printf("[");
+  while (s->top >= 0)
+  {
+    if (s->top == 0)
+    {
+      printf("%s", s->arr[s->top]);
+    }
+    else
+    {
+      printf("%s, ", s->arr[s->top]);
+    }
+    s->top -= 1;
+  }
+  printf("], ");
+}
+
 void displayLL(node *head)
 {
   node *temp = head;
@@ -161,7 +192,8 @@ void displayLL(node *head)
   {
     while (temp != NULL)
     {
-      printf("%c ", temp->data);
+      printf("%s ", temp->data);
+      display_stack(temp);
       temp = temp->next;
     }
   }
